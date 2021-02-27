@@ -1,0 +1,3 @@
+[submodule "services/cstern.io"]
+	path = services/cstern.io
+	url = https://github.com/cisaacstern/cstern.io.git
