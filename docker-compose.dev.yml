@@ -1,13 +1,13 @@
-version: '3.7'
+version: '3.3'
 
 services:
   web:
     build: ./services/cstern.io
-    command: gunicorn -w4 --bind 0.0.0.0:5000 manage:app
+    command: gunicorn -w4 --bind 0.0.0.0:80 manage:app
     volumes:
       - /usr/src/app/
     ports:
-      - 5000:5000
+      - 80:80
     env_file: 
       - ./.env.dev
     

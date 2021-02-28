@@ -1,0 +1,64 @@
+version: '3.3'
+
+services:
+  flask:
+    build: ./services/cstern.io
+    command: gunicorn -w4 --bind 0.0.0.0:5000 manage:app
+    volumes:
+      - /usr/src/app/
+    expose:
+      - 5000
+    env_file: 
+      - ./.env.prod
+    networks:
+      - app-network
+
+  webserver:
+    image: nginx:mainline-alpine
+    container_name: webserver
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"  
+    volumes:
+      - web-root:/var/www/html
+      - ./services/webserver/nginx-conf:/etc/nginx/conf.d
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      - dhparam:/etc/ssl/certs
+    depends_on:
+      - flask
+    networks:
+      - app-network
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      - web-root:/var/www/html
+    depends_on:
+      - webserver
+    command: certonly --webroot --webroot-path=/var/www/html --email charlesisaacstern@gmail.com --agree-tos --no-eff-email --force-renewal -d cstern.io  -d www.cstern.io
+
+volumes:
+  certbot-etc:
+  certbot-var:
+  web-root:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/nginx-wrapper/volumes/web-root/
+      o: bind
+  dhparam:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/nginx-wrapper/services/webserver/dhparam/
+      o: bind
+
+
+networks:
+  app-network:
+          driver: bridge
