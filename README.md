@@ -187,5 +187,16 @@ $ prod up -d --build $APP_SERVICE
 
 ## Note on resources & websockets
 
-In the case of serving a Bokeh, Panel, or other app which 
+In the case of serving a Bokeh or Panel app on the BokehTornado server, a few additional considerations are worth mentioning.
+
+First, it is presumably possible to serve static resources (such as BokehJS) through the proxy, I found it easiest to use CDN via:
+
+```
+from bokeh.settings import settings
+settings.resources = 'cdn'
+```
+
+And second, care must be taken to configure the Nginx proxy for websockets, as described in this section of the Bokeh documentation: https://docs.bokeh.org/en/latest/docs/user_guide/server.html#reverse-proxying-with-nginx-and-ssl
+
+Please feel free to reach out with questions about any of the above.
 
