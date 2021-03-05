@@ -2,7 +2,7 @@
 
 ## Aims
 
-So you have a web project locally? Perhaps it's a Flask app running on Gunicorn, or a Panel app running on BokehTornado. This repo demonstrates how to wrap that project for cloud deployment behind an SSL-secured proxy. The remainder of this document is a step-by-step outline of one approach.
+So you want bring a web project to the cloud with IaaS? Perhaps it's a Flask app running on Gunicorn, or a Panel app running on BokehTornado. This repo demonstrates how to wrap that project for cloud deployment behind an SSL-secured proxy. The remainder of this document is a step-by-step outline of one approach.
 
 > I once read that being an engineering manager is just saying "it depends" over and over again. Perhaps that insight is especially true for devops. When many technologies collide, the number of permutations and caveats increases exponentially. Thus I haven't attempted to create a true how-to here, but rather a trail of breadcrumbs for myself and others with a similar use case.  
 
